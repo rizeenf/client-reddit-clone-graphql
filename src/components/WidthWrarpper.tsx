@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode;
 }
 
-const WidthWrarpper = ({ children, variant }: Props) => {
+const WidthWrarpper = ({ children, variant = "small" }: Props) => {
   return (
     <Box
       mt={12}

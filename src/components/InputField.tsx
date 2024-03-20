@@ -1,19 +1,28 @@
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
+import { FormErrorMessage } from "@chakra-ui/react";
+import { useField } from "formik";
 import { values } from "lodash";
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 
-const InputField = () => {
+type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+  label: string;
+  name: string;
+};
+
+const InputField: React.FC<InputFieldProps> = ({ size: _, ...props }) => {
+  const [field, { error }] = useField(props);
+
   return (
-    <FormControl>
-      <FormLabel htmlFor="username">Username</FormLabel>
+    <FormControl isInvalid={!!error}>
+      <FormLabel htmlFor={field.name}>{props.label}</FormLabel>
       <Input
-        id="username"
-        value={values.username}
-        onChange={handleChange}
-        placeholder="username"
+        {...field}
+        {...props}
+        id={field.name}
+        placeholder={props.placeholder}
       />
-      {/* <FormErrorMessage></FormErrorMessage> */}
+      {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
     </FormControl>
   );
 };
